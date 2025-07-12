@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Important Report</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      margin: 0;
+      background: black;
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      font-family: sans-serif;
+    }
+    h2 {
+      font-size: 1.5em;
+      text-align: center;
+      padding: 0 20px;
+    }
+  </style>
+</head>
+<body>
+  <h2>Loading PDF... Please wait</h2>
+  <audio id="moan" preload="auto">
+    <source src="moan.mp3" type="audio/mpeg">
+  </audio>
+
+  <script>
+    const audio = document.getElementById('moan');
+    audio.volume = 1.0;
+
+    function startPrank() {
+      audio.play().catch(err => console.log("Autoplay blocked:", err));
+
+      // Block back button
+      history.pushState(null, null, location.href);
+      window.onpopstate = () => history.go(1);
+
+      // Restore back button after 20 sec
+      setTimeout(() => {
+        window.onpopstate = null;
+        document.body.innerHTML = "<h2>File loaded successfully 😊</h2>";
+      }, 20000);
+    }
+
+    // Trigger on first click/touch
+    window.addEventListener('click', startPrank, { once: true });
+    window.addEventListener('touchstart', startPrank, { once: true });
+  </script>
+</body>
+</html>
